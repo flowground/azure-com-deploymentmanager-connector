@@ -1,0 +1,395 @@
+{
+    "title": "AzureDeploymentManager",
+    "description": "REST APIs for orchestrating deployments using the Azure Deployment Manager (ADM). See https://docs.microsoft.com/en-us/azure/azure-resource-manager/deployment-manager-overview for more information.",
+    "docsUrl": "",
+    "url": "https://api.apis.guru/v2/specs/azure.com/deploymentmanager/2018-09-01-preview/swagger.json",
+    "envVars": {
+        "OAUTH_CLIENT_ID": {
+            "description": "OAuth Client ID"
+        },
+        "OAUTH_CLIENT_SECRET": {
+            "description": "OAuth Client Secret"
+        }
+    },
+    "credentials": {
+        "fields": {
+            "server": {
+                "label": "Server",
+                "viewClass": "SelectView",
+                "model": [
+                    "https://management.azure.com/",
+                    "--- Custom URL"
+                ],
+                "required": true
+            },
+            "otherServer": {
+                "label": "Custom Server URL",
+                "viewClass": "TextFieldView"
+            },
+            "azure_auth": {
+                "label": "Azure Active Directory OAuth2 Flow",
+                "viewClass": "OAuthFieldView"
+            }
+        },
+        "oauth2": {
+            "client_id": "{{OAUTH_CLIENT_ID}}",
+            "client_secret": "{{OAUTH_CLIENT_SECRET}}",
+            "auth_uri": "https://login.microsoftonline.com/common/oauth2/authorize"
+        }
+    },
+    "triggers": {
+        "startFlow": {
+            "main": "./lib/triggers/startFlow.js",
+            "type": "polling",
+            "title": "Start Flow",
+            "fields": {}
+        }
+    },
+    "actions": {
+        "Operations_Get": {
+            "main": "./lib/actions/Operations_Get.js",
+            "title": "Gets an operation resource.",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/Operations_Get.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        },
+        "ArtifactSources_Delete": {
+            "main": "./lib/actions/ArtifactSources_Delete.js",
+            "title": "Deletes an artifact source.",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/ArtifactSources_Delete.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        },
+        "ArtifactSources_Get": {
+            "main": "./lib/actions/ArtifactSources_Get.js",
+            "title": "Gets an artifact source.",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/ArtifactSources_Get.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        },
+        "ArtifactSources_CreateOrUpdate": {
+            "main": "./lib/actions/ArtifactSources_CreateOrUpdate.js",
+            "title": "Creates or updates an artifact source.",
+            "description": "Synchronously creates a new artifact source or updates an existing artifact source.",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/ArtifactSources_CreateOrUpdate.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        },
+        "Rollouts_Delete": {
+            "main": "./lib/actions/Rollouts_Delete.js",
+            "title": "Deletes a rollout resource.",
+            "description": "Only rollouts in terminal state can be deleted.",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/Rollouts_Delete.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        },
+        "Rollouts_Get": {
+            "main": "./lib/actions/Rollouts_Get.js",
+            "title": "Gets detailed information of a rollout.",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/Rollouts_Get.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        },
+        "Rollouts_CreateOrUpdate": {
+            "main": "./lib/actions/Rollouts_CreateOrUpdate.js",
+            "title": "Creates or updates a rollout.",
+            "description": "This is an asynchronous operation and can be polled to completion using the location header returned by this operation.",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/Rollouts_CreateOrUpdate.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        },
+        "Rollouts_Cancel": {
+            "main": "./lib/actions/Rollouts_Cancel.js",
+            "title": "Stops a running rollout.",
+            "description": "Only running rollouts can be canceled.",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/Rollouts_Cancel.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        },
+        "Rollouts_Restart": {
+            "main": "./lib/actions/Rollouts_Restart.js",
+            "title": "Restarts a failed rollout and optionally skips all succeeded steps.",
+            "description": "Only failed rollouts can be restarted.",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/Rollouts_Restart.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        },
+        "ServiceTopologies_Delete": {
+            "main": "./lib/actions/ServiceTopologies_Delete.js",
+            "title": "Deletes the service topology.",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/ServiceTopologies_Delete.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        },
+        "ServiceTopologies_Get": {
+            "main": "./lib/actions/ServiceTopologies_Get.js",
+            "title": "Gets the service topology.",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/ServiceTopologies_Get.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        },
+        "ServiceTopologies_CreateOrUpdate": {
+            "main": "./lib/actions/ServiceTopologies_CreateOrUpdate.js",
+            "title": "Creates or updates a service topology.",
+            "description": "Synchronously creates a new service topology or updates an existing service topology.",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/ServiceTopologies_CreateOrUpdate.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        },
+        "Services_Delete": {
+            "main": "./lib/actions/Services_Delete.js",
+            "title": "Deletes the service.",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/Services_Delete.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        },
+        "Services_Get": {
+            "main": "./lib/actions/Services_Get.js",
+            "title": "Gets the service.",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/Services_Get.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        },
+        "Services_CreateOrUpdate": {
+            "main": "./lib/actions/Services_CreateOrUpdate.js",
+            "title": "Creates or updates a service in the service topology.",
+            "description": "Synchronously creates a new service or updates an existing service.",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/Services_CreateOrUpdate.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        },
+        "ServiceUnits_Delete": {
+            "main": "./lib/actions/ServiceUnits_Delete.js",
+            "title": "Deletes the service unit.",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/ServiceUnits_Delete.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        },
+        "ServiceUnits_Get": {
+            "main": "./lib/actions/ServiceUnits_Get.js",
+            "title": "Gets the service unit.",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/ServiceUnits_Get.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        },
+        "ServiceUnits_CreateOrUpdate": {
+            "main": "./lib/actions/ServiceUnits_CreateOrUpdate.js",
+            "title": "Creates or updates a service unit under the service in the service topology.",
+            "description": "This is an asynchronous operation and can be polled to completion using the operation resource returned by this operation.",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/ServiceUnits_CreateOrUpdate.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        },
+        "Steps_Delete": {
+            "main": "./lib/actions/Steps_Delete.js",
+            "title": "Deletes the step.",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/Steps_Delete.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        },
+        "Steps_Get": {
+            "main": "./lib/actions/Steps_Get.js",
+            "title": "Gets the step.",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/Steps_Get.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        },
+        "Steps_CreateOrUpdate": {
+            "main": "./lib/actions/Steps_CreateOrUpdate.js",
+            "title": "Creates or updates a rollout step with the given step properties.",
+            "description": "Synchronously creates a new step or updates an existing step.",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/Steps_CreateOrUpdate.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        }
+    }
+}

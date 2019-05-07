@@ -1,0 +1,153 @@
+{
+    "type": "object",
+    "properties": {
+        "subscriptionId": {
+            "required": true,
+            "type": "string"
+        },
+        "resourceGroupName": {
+            "required": true,
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 90,
+            "pattern": "^[-\\w\\._\\(\\)]+$"
+        },
+        "serviceTopologyName": {
+            "required": true,
+            "type": "string"
+        },
+        "serviceName": {
+            "required": true,
+            "type": "string"
+        },
+        "serviceUnitName": {
+            "required": true,
+            "type": "string"
+        },
+        "requestBody": {
+            "allOf": [
+                {
+                    "allOf": [
+                        {
+                            "properties": {
+                                "id": {
+                                    "description": "Fully qualified resource Id for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}",
+                                    "readOnly": true,
+                                    "type": "string"
+                                },
+                                "name": {
+                                    "description": "The name of the resource",
+                                    "readOnly": true,
+                                    "type": "string"
+                                },
+                                "type": {
+                                    "description": "The type of the resource. Ex- Microsoft.Compute/virtualMachines or Microsoft.Storage/storageAccounts.",
+                                    "readOnly": true,
+                                    "type": "string"
+                                }
+                            },
+                            "x-ms-azure-resource": true,
+                            "type": "object"
+                        }
+                    ],
+                    "description": "The resource model definition for a ARM tracked top level resource",
+                    "properties": {
+                        "location": {
+                            "description": "The geo-location where the resource lives",
+                            "type": "string",
+                            "x-ms-mutability": [
+                                "read",
+                                "create"
+                            ]
+                        },
+                        "tags": {
+                            "additionalProperties": {
+                                "type": "string"
+                            },
+                            "description": "Resource tags.",
+                            "type": "object",
+                            "x-ms-mutability": [
+                                "read",
+                                "create",
+                                "update"
+                            ]
+                        }
+                    },
+                    "required": [
+                        "location"
+                    ],
+                    "type": "object"
+                }
+            ],
+            "description": "Represents the response of a service unit resource.",
+            "properties": {
+                "properties": {
+                    "allOf": [
+                        {
+                            "description": "Defines the properties of a service unit.",
+                            "properties": {
+                                "artifacts": {
+                                    "description": "The artifacts for the service unit.",
+                                    "type": "object",
+                                    "properties": {
+                                        "parametersArtifactSourceRelativePath": {
+                                            "description": "The path to the ARM parameters file relative to the artifact source.",
+                                            "example": "/parameters/resource1.parameters.json",
+                                            "type": "string"
+                                        },
+                                        "parametersUri": {
+                                            "description": "The full URI of the ARM parameters file with the SAS token.",
+                                            "example": "https://teststore.blob.core.windows.net/payloadcontainer/parameters.json?sasUri",
+                                            "type": "string"
+                                        },
+                                        "templateArtifactSourceRelativePath": {
+                                            "description": "The path to the ARM template file relative to the artifact source.",
+                                            "example": "/templates/resource1.template.json",
+                                            "type": "string"
+                                        },
+                                        "templateUri": {
+                                            "description": "The full URI of the ARM template file with the SAS token.",
+                                            "example": "https://teststore.blob.core.windows.net/payloadcontainer/template.json?sasUri",
+                                            "type": "string"
+                                        }
+                                    }
+                                },
+                                "deploymentMode": {
+                                    "description": "Describes the type of ARM deployment to be performed on the resource.",
+                                    "enum": [
+                                        "Incremental",
+                                        "Complete"
+                                    ],
+                                    "type": "string",
+                                    "x-ms-enum": {
+                                        "modelAsString": false,
+                                        "name": "DeploymentMode"
+                                    }
+                                },
+                                "targetResourceGroup": {
+                                    "description": "The Azure Resource Group to which the resources in the service unit belong to or should be deployed to.",
+                                    "type": "string"
+                                }
+                            },
+                            "required": [
+                                "targetResourceGroup",
+                                "deploymentMode"
+                            ],
+                            "type": "object"
+                        }
+                    ],
+                    "description": "The properties that define the service unit.",
+                    "x-ms-client-flatten": true
+                }
+            },
+            "required": [
+                "properties"
+            ],
+            "type": "object"
+        },
+        "api_version": {
+            "required": true,
+            "type": "string"
+        }
+    }
+}

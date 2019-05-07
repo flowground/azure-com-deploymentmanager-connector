@@ -1,0 +1,207 @@
+{
+    "type": "object",
+    "properties": {
+        "subscriptionId": {
+            "required": true,
+            "type": "string"
+        },
+        "resourceGroupName": {
+            "required": true,
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 90,
+            "pattern": "^[-\\w\\._\\(\\)]+$"
+        },
+        "rolloutName": {
+            "required": true,
+            "type": "string"
+        },
+        "requestBody": {
+            "allOf": [
+                {
+                    "allOf": [
+                        {
+                            "properties": {
+                                "id": {
+                                    "description": "Fully qualified resource Id for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}",
+                                    "readOnly": true,
+                                    "type": "string"
+                                },
+                                "name": {
+                                    "description": "The name of the resource",
+                                    "readOnly": true,
+                                    "type": "string"
+                                },
+                                "type": {
+                                    "description": "The type of the resource. Ex- Microsoft.Compute/virtualMachines or Microsoft.Storage/storageAccounts.",
+                                    "readOnly": true,
+                                    "type": "string"
+                                }
+                            },
+                            "x-ms-azure-resource": true,
+                            "type": "object"
+                        }
+                    ],
+                    "description": "The resource model definition for a ARM tracked top level resource",
+                    "properties": {
+                        "location": {
+                            "description": "The geo-location where the resource lives",
+                            "type": "string",
+                            "x-ms-mutability": [
+                                "read",
+                                "create"
+                            ]
+                        },
+                        "tags": {
+                            "additionalProperties": {
+                                "type": "string"
+                            },
+                            "description": "Resource tags.",
+                            "type": "object",
+                            "x-ms-mutability": [
+                                "read",
+                                "create",
+                                "update"
+                            ]
+                        }
+                    },
+                    "required": [
+                        "location"
+                    ],
+                    "type": "object"
+                }
+            ],
+            "description": "Defines the PUT rollout request body.",
+            "properties": {
+                "identity": {
+                    "description": "Identity for the resource.",
+                    "properties": {
+                        "identityIds": {
+                            "description": "The list of identities.",
+                            "items": {
+                                "example": "/subscriptions/mySubId/resourcegroups/myRG/providers/Microsoft.ManagedIdentity/userassignedidentities/myIdentity",
+                                "type": "string"
+                            },
+                            "type": "array"
+                        },
+                        "type": {
+                            "description": "The identity type.",
+                            "example": "userAssigned",
+                            "type": "string"
+                        }
+                    },
+                    "required": [
+                        "type",
+                        "identityIds"
+                    ],
+                    "type": "object"
+                },
+                "properties": {
+                    "description": "Defines the properties that make up a rollout request.",
+                    "x-ms-client-flatten": true,
+                    "properties": {
+                        "artifactSourceId": {
+                            "description": "The reference to the artifact source resource Id where the payload is located.",
+                            "example": "Microsoft.DeploymentManager/artifactSources/payloadStore1",
+                            "type": "string"
+                        },
+                        "buildVersion": {
+                            "description": "The version of the build being deployed.",
+                            "example": "1.0.0.1",
+                            "type": "string"
+                        },
+                        "stepGroups": {
+                            "description": "The list of step groups that define the orchestration.",
+                            "items": {
+                                "description": "The properties that define an Azure Deployment Manager step.",
+                                "properties": {
+                                    "dependsOnStepGroups": {
+                                        "description": "The list of step group names on which this step group depends on.",
+                                        "example": [
+                                            "stepGroup1",
+                                            "stepGroup2"
+                                        ],
+                                        "items": {
+                                            "type": "string"
+                                        },
+                                        "type": "array"
+                                    },
+                                    "deploymentTargetId": {
+                                        "description": "The resource Id of service unit to be deployed. The service unit should be from the service topology referenced in targetServiceTopologyId",
+                                        "example": "Microsoft.DeploymentManager/serviceTopologies/myServiceTopology/services/myService/serviceUnits/database",
+                                        "type": "string"
+                                    },
+                                    "name": {
+                                        "description": "The name of the step group.",
+                                        "type": "string"
+                                    },
+                                    "postDeploymentSteps": {
+                                        "description": "The list of steps to be run after deploying the target.",
+                                        "items": {
+                                            "description": "The properties that define a step.",
+                                            "properties": {
+                                                "stepId": {
+                                                    "description": "The resource Id of the step to be run.",
+                                                    "example": "Microsoft.DeploymentManager/steps/healthCheckStep1",
+                                                    "type": "string"
+                                                }
+                                            },
+                                            "required": [
+                                                "stepId"
+                                            ],
+                                            "type": "object"
+                                        },
+                                        "type": "array"
+                                    },
+                                    "preDeploymentSteps": {
+                                        "description": "The list of steps to be run before deploying the target.",
+                                        "items": {
+                                            "description": "The properties that define a step.",
+                                            "properties": {
+                                                "stepId": {
+                                                    "description": "The resource Id of the step to be run.",
+                                                    "example": "Microsoft.DeploymentManager/steps/healthCheckStep1",
+                                                    "type": "string"
+                                                }
+                                            },
+                                            "required": [
+                                                "stepId"
+                                            ],
+                                            "type": "object"
+                                        },
+                                        "type": "array"
+                                    }
+                                },
+                                "required": [
+                                    "deploymentTargetId",
+                                    "name"
+                                ],
+                                "type": "object"
+                            },
+                            "type": "array"
+                        },
+                        "targetServiceTopologyId": {
+                            "description": "The resource Id of the service topology from which service units are being referenced in step groups to be deployed.",
+                            "example": "Microsoft.DeploymentManager/serviceTopologies/myServiceTopology",
+                            "type": "string"
+                        }
+                    },
+                    "required": [
+                        "stepGroups",
+                        "targetServiceTopologyId",
+                        "buildVersion"
+                    ]
+                }
+            },
+            "required": [
+                "identity",
+                "properties"
+            ],
+            "type": "object"
+        },
+        "api_version": {
+            "required": true,
+            "type": "string"
+        }
+    }
+}
